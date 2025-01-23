@@ -8,7 +8,7 @@ import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import diagramsRouter from './routers/diagram.js';
 
 const whitelist = [
-//   'http://localhost:5173',
+  'http://localhost:5173',
 //   'https://event-scheduler-liard.vercel.app'
 ];
 
