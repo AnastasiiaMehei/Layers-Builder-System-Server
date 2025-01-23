@@ -14,11 +14,10 @@ import { setupProxy } from '../proxyConfig.js';
 // ];
 
 const corsOptions = {
-  origin: ['http://localhost:5173', 'https://layers-builder-system-server.onrender.com'],
+  origin: ['http://localhost:5173', 'https://layers-builder-system.vercel.app'],
   credentials: true,
   optionsSuccessStatus: 200,
 };
-
 
 const PORT = Number(env('PORT', '3002'));
 
@@ -27,6 +26,7 @@ export function setupServer() {
 
   // Add proxy middleware
   app.use(cors(corsOptions));
+  app.use(express.json()); // Add this line to parse JSON bodies
   app.use(diagramsRouter);
   setupProxy(app);
   app.get('/', (req, res) => {
@@ -37,7 +37,6 @@ export function setupServer() {
 
   app.use('/uploads', express.static(UPLOAD_DIR));
   app.use(cookieParser());
-  // app.use(diagramsRouter);
   app.use(notFoundHandler);
   app.use(errorHandler);
 
