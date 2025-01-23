@@ -30,7 +30,7 @@ export function setupServer() {
   const app = express();
 
   // Add proxy middleware
-  app.use('/api', diagramsRouter);
+  app.use(diagramsRouter);
   app.use(cors(corsOptions));
   app.get('/', (req, res) => {
     res.json({
