@@ -9,7 +9,7 @@ import diagramsRouter from './routers/diagram.js';
 
 const whitelist = [
   'http://localhost:5173',
-//   'https://event-scheduler-liard.vercel.app'
+  "https://layers-builder-system.vercel.app/"
 ];
 
 const corsOptions = {
