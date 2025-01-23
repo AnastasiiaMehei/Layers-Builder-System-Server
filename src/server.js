@@ -6,7 +6,6 @@ import { env } from './utils/env.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import diagramsRouter from './routers/diagram.js';
-import { createProxyMiddleware } from 'http-proxy-middleware';
 
 const whitelist = [
   'http://localhost:5173',
@@ -31,14 +30,7 @@ export function setupServer() {
   const app = express();
 
   // Add proxy middleware
-  app.use(
-    '/api',
-    createProxyMiddleware({
-      target: 'https://layers-builder-system-server.onrender.com',
-      changeOrigin: true,
-    })
-  );
-
+  app.use('/api', diagramsRouter);
   app.use(cors(corsOptions));
   app.get('/', (req, res) => {
     res.json({
@@ -48,7 +40,7 @@ export function setupServer() {
 
   app.use('/uploads', express.static(UPLOAD_DIR));
   app.use(cookieParser());
-  app.use(diagramsRouter);
+  // app.use(diagramsRouter);
   app.use(notFoundHandler);
   app.use(errorHandler);
 
