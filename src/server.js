@@ -26,11 +26,9 @@ export function setupServer() {
   const app = express();
 
   // Add proxy middleware
-  app.use(diagramsRouter);
   app.use(cors(corsOptions));
+  app.use(diagramsRouter);
   setupProxy(app);
-
-
   app.get('/', (req, res) => {
     res.json({
       message: 'Hello dear user!',
