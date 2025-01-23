@@ -6,25 +6,21 @@ import { env } from './utils/env.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import diagramsRouter from './routers/diagram.js';
+import { setupProxy } from '../proxyConfig.js';
 
-const whitelist = [
-  'http://localhost:5173',
-  "https://layers-builder-system.vercel.app/"
-];
+// const whitelist = [
+//   'http://localhost:5173',
+//   "https://layers-builder-system.vercel.app/"
+// ];
 
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: ['http://localhost:5173', 'https://layers-builder-system-server.onrender.com'],
   credentials: true,
   optionsSuccessStatus: 200,
 };
 
-const PORT = Number(env('PORT', '3001'));
+
+const PORT = Number(env('PORT', '3002'));
 
 export function setupServer() {
   const app = express();
@@ -32,6 +28,9 @@ export function setupServer() {
   // Add proxy middleware
   app.use(diagramsRouter);
   app.use(cors(corsOptions));
+  setupProxy(app);
+
+
   app.get('/', (req, res) => {
     res.json({
       message: 'Hello dear user!',
